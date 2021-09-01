@@ -56,6 +56,6 @@ while (count < n):
                 c += 1
         if (c == 2):
             count += 1
-            prime_list.append(x)           
+            prime_list.append(x)
     i += 1
 print(prime_list)
