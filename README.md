@@ -1,4 +1,4 @@
 # Python_101
-Learning materials from courses
+Learning materials for beginners
 
-Nothing interesting here to see! :)
+Nothing interesting to see here! :)
