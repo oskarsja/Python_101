@@ -30,7 +30,7 @@ list = []
 start = int(input('Input starting number: '))
 end = int(input('Input starting number: '))
 for i in range(start, end + 1):
-    print(f'{i} kubā: {i * i *i}')
+    print(f'{i} kubā: {i * i * i}')
     list.append(i * i * i)
 print(f'Visi kubi: {list}')
  
