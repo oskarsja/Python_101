@@ -1,10 +1,10 @@
 # 1. Uzrakstiet funkciju add_mult, ar trīs parametriem. Atgriež rezultātu, kas ir 2 mazāko argumentu summa reizināta ar lielāko argumenta vērtību.
 # Piemērs: add_mult(2,5,4) -> atgriezīs 30
 def add_mult(number1, number2, number3):
-    list = [number1, number2, number3]
-    list.sort()
-    bottom = sum(list[0:2])
-    top = list[-1]
+    my_list = [number1, number2, number3]
+    my_list.sort()
+    bottom = sum(my_list[0:2])
+    top = my_list[-1]
     result = bottom * top
     return(result)
 
