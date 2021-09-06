@@ -3,20 +3,16 @@
 def add_mult(number1, number2, number3):
     my_list = [number1, number2, number3]
     my_list.sort()
-    bottom = sum(my_list[0:2])
-    top = my_list[-1]
-    result = bottom * top
-    return(result)
+    result = my_list[0] + my_list[1] * my_list[-1]
+    return result
 
 print(add_mult(2,5,4))
 
 # 2. Uzrakstiet funkciju is_palindrome(text), kas atgriež bool True vai False atkarībā vai vārds vai teikums ir lasāms vienādi no abām pusēm.
 # Piemērs: is_palindrome("Alus ari ira      sula") -> True
 def is_palindrome(text):
-    text = text.lower().replace(" ", "")
-    reverse_text = text.lower()[::-1]    
-    result = text == reverse_text
-    return(result)
+    cleaned = text.lower().replace(" ", "")
+    return cleaned == cleaned[::-1]
 
 print(is_palindrome('Alus ari ira      sula'))
 
@@ -37,6 +33,8 @@ print(is_palindrome('Alus ari ira      sula'))
 # get_city_year(1500, 5, 100, 5000) -> 15
 # get_city_year(1500000, 2.5, 10000, 2000000) -> 10
 def get_city_year(p0, perc, delta, p):
+    if p < p0:
+        p, p0 = p0, p #swap 
     count = 1
     perc = perc / 100
     formula = p0 + p0 * perc + delta
@@ -49,6 +47,6 @@ def get_city_year(p0, perc, delta, p):
                 count += 1
     else:
         count = -1
-    return(count)
+    return count
 
-print(get_city_year(1000,2,50,1200))
+print(get_city_year(1000,2,50,1200)) #1000, 2, -50, 970 - nestrādā
