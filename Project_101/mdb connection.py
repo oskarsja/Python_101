@@ -1,7 +1,3 @@
-## Mysql-Python basic examples.
-## All code is taken from [here](http://zetcode.com/databases/mysqlpythontutorial/)
-## Gist created only for quick reference purpose
-
 import sys
 import MySQLdb as mdb
 
@@ -13,8 +9,8 @@ DB_NAME = 'sys'
 
 def mdb_get_version():
     """
-    Get the mysql version using the MySQLdb. Compatible with Python DB API which
-    makes the code more portable
+    Get the mysql version using the MySQLdb. 
+    Compatible with Python DB API which makes the code more portable.
     """
     con = None
     try:
@@ -51,7 +47,7 @@ def create_and_populate():
             cur.execute("INSERT INTO writers (NAME) VALUES ('%s')" % name)
 
 
-def retrieve_data():
+def retrieve_data(sql):
     """
     Retrieve the data from the table.
     """
@@ -59,7 +55,7 @@ def retrieve_data():
     
     with con:
         cur = con.cursor()
-        sql = "SELECT * FROM sys_config"
+        #sql = "SELECT * FROM sys_config"
         cur.execute(sql)
 
         results = cur.fetchall()
@@ -166,7 +162,7 @@ def with_transactions():
 if __name__ == '__main__':
     mdb_get_version()
     # create_and_populate()
-    retrieve_data()
+    retrieve_data('SELECT * FROM sys_config')
     # retrieve_onebyone()
     # dict_cursor()
     # with_description()
