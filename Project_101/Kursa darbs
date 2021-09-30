@@ -1,0 +1,294 @@
+import mysql.connector as mdb                                                                                     # pip install mysql-connector-python
+import pandas as pd                                                                                               # pip install pandas
+import matplotlib.pyplot as plt                                                                                   # pip install matplotlib
+import numpy as np                                                                                                # included
+from pptx import Presentation                                                                                     # pip install python-pptx
+from pptx.util import Inches                                                                                      # pip install python-pptx
+import os                                                                                                         # included
+
+############################################################################################################################################################################
+####################################################### Getting data from Maria DB #########################################################################################
+############################################################################################################################################################################
+
+# with open(f'{path}\db_params.txt', 'r') as f:                                                                   # Reading redentials from .txt file
+# user = 'user_name', password = 'user_password', host = '196.1.1.1', database = 'schema_name'                    # .txt file format
+# 	con = eval('mdb.connect({})'.format(f.readline().strip()))                                                    # Connecting to DB
+
+# Data from MySQL DB
+# sql = """                                                                                                       # Tripple quote for many lines
+# SELECT x_labels, bar_value, bar_value2, bar_value3, line_value4, line_value5                                    # Columns from db table
+# FROM schema_name.table_name                                                                                     # DB table schame and name
+# WHERE params = XXX                                                                                              # Additional table params
+# """                                                                                                             # Tripple quote for many lines
+
+# df = pd.read_sql(sql, con)                                                                                      # Reading data from db using SQL and connection settings
+# df = pd.DataFrame(pd.read_sql(sql, con), columns = ['labels', 'value', 'value2', 'value3', 'value4','value5'])  # Read specific collumns
+
+# x_labels =    df['x_labels'].values.tolist()                                                                    # DF to List
+# bar_value1 =  df['bar_value1'].values.tolist()                                                                  # DF to List
+# bar_value2 =  df['bar_value2'].astype(int).values.tolist()                                                      # DF to List with int type
+# bar_value3 =  df['bar_value3'].values.tolist()                                                                  # DF to List
+# line_value4 = df['line_value4'].values.tolist()                                                                 # DF to List
+# line_value5 = df['line_value5'].values.tolist()                                                                 # DF to list
+
+############################################################################################################################################################################
+####################################################### Generating data manually ###########################################################################################
+############################################################################################################################################################################
+
+# Since we dont have db credentials - I'm using my own random data
+x_labels = ['2020/24', '2020/25', '2020/26', '2020/27', '2020/28', '2020/29', '2020/30', '2020/31', '2020/32', '2020/33', '2020/34', '2020/35', '2020/36', '2020/37', '2020/38']
+bar_value1 = [16164, 16172, 16249, 16284, 16403, 16447, 16482, 16566, 16702, 16738, 16776, 16821, 16860, 16981, 17047]
+bar_value2 = [706.0, 660.0, 921.0, 794.0, 785.0, 968.0, 1216.0, 1466.0, 1285.0, 1401.0, 1655.0, 1443.0, 1261.0, 1583.0, 1660.0]
+bar_value3 = [645.0, 630.0, 722.0, 627.0, 599.0, 699.0, 847.0, 890.0, 834.0, 893.0, 949.0, 906.0, 920.0, 985.0, 1041.0]
+line_value4 = [4.0, 3.9, 4.4, 3.9, 3.7, 4.3, 5.1, 5.4, 5.0, 5.3, 5.7, 5.4, 5.5, 5.8, 6.1]
+line_value5 = [4.4, 4.1, 5.7, 4.9, 4.8, 5.9, 7.4, 8.8, 7.7, 8.4, 9.9, 8.6, 7.5, 9.3, 9.7]
+
+############################################################################################################################################################################
+####################################################### Global variables ###################################################################################################
+############################################################################################################################################################################
+
+# plt.rcParams['font.family'] = 'sans-serif'                                                              # Change font (default: DejaVu Sa s)
+path = os.environ['USERPROFILE'] + "\Desktop"                                                             # Interactive path
+global_fontsize = 17                                                                                      # Font size
+width = 0.35                                                                                              # Bar width - optional
+bar_count = 3                                                                                             # Total bar count
+
+############################################################################################################################################################################
+####################################################### X axis setup #######################################################################################################
+############################################################################################################################################################################
+
+x = np.arange(len(x_labels))                                                                              # Set X axis ticks based on label count
+fig, ax = plt.subplots()                                                                                  # Subplot for X axis values
+
+# Draw bars
+bar1 = ax.bar(  # Bar1 design
+                x-width/bar_count,                                                                        # bar position on tick
+                bar_value1,                                                                               # bar height based on value
+                width,                                                                                    # bar total width
+                color='navajowhite',                                                                      # bar color
+                alpha=1,                                                                                  # bar transparency
+                zorder=2                                                                                  # bar layer 
+              ) 
+bar2 = ax.bar(  # Bar2 design
+                x+width/bar_count,                                                                        # bar position on tick
+                bar_value2,                                                                               # bar height based on value
+                width,                                                                                    # bar total width
+                color='red',                                                                              # bar color
+                alpha=1,                                                                                  # bar transparency
+                zorder=2,                                                                                 # bar layer
+                label='Saplēstie sarkanie šķīvīši'                                                        # bar label (to show or not to show on legend)
+              ) 
+bar3 = ax.bar(  # Bar3 design
+                x,                                                                                        # bar position on tick
+                bar_value3,                                                                               # bar height based on value
+                width,                                                                                    # bar total width
+                color='gold',                                                                             # bar color
+                alpha=1,                                                                                  # bar transparency
+                zorder=2,                                                                                 # bar layer
+                label='Saplēstie dzeltenās šķīvīši'                                                       # bar label (to show or not to show on legend)
+              ) 
+
+# Draw bar labels
+ax.bar_label( bar1,                                                                                       # Which bar to show value on
+              padding=3,                                                                                  # Distance from bar the label will be drawn
+              fontsize=global_fontsize,                                                                   # Label font size
+              weight='bold'                                                                               # Label bold or not
+            ) # Bar1 label design
+ax.bar_label( bar2,                                                                                       # Which bar to show value on
+              padding=3,                                                                                  # Distance from bar the label will be drawn
+              fontsize=global_fontsize,                                                                   # Label font size
+              weight='bold'                                                                               # Label bold or not
+            ) # Bar2 label design
+ax.bar_label( bar3,                                                                                       # Which bar to show value on
+              padding=3,                                                                                  # Distance from bar the label will be drawn
+              fontsize=global_fontsize,                                                                   # Label font size
+              label_type='center'                                                                         # Label vertical position
+            ) # Bar3 label design
+
+# Draw X axis labels
+ax.set_xticks(x)                                                                                          # X axis tick position
+ax.set_xticklabels(x_labels)                                                                              # X axis tick labels
+ax.xaxis.set_tick_params(labelsize=global_fontsize)                                                       # X axis tick label font
+
+############################################################################################################################################################################
+####################################################### Primary Y axis setup ###############################################################################################
+############################################################################################################################################################################
+
+# Draw primary Y axis labels
+ax.set_yticks(np.arange(0,22000,2000))                                                                    # Primary Y axis tick count
+ax.yaxis.set_tick_params(labelsize=global_fontsize)                                                       # Primary Y axis tick label font
+
+############################################################################################################################################################################
+####################################################### Secondary Y axis setup #############################################################################################
+############################################################################################################################################################################
+
+ax2 = ax.twinx()                                                                                          # Create secondary Y axis
+
+# Draw lines
+ax2.plot( # Line2 design
+          x,                                                                                              # Marker position on tick
+          line_value4,                                                                                    # Marker Y position based on value
+          color='gold',                                                                                   # Line color
+          zorder=2,                                                                                       # Line layer
+          marker='o',                                                                                     # Marker shape
+          linewidth=5,                                                                                    # Line width
+          markersize=7,                                                                                   # Marker size
+          markerfacecolor='yellow'                                                                        # Marker color
+        ) 
+ax2.plot( # Line1 design
+          x,                                                                                              # Marker position on tick
+          line_value5,                                                                                    # Marker Y position based on value
+          color='red',                                                                                    # Line color
+          zorder=2,                                                                                       # Line layer
+          marker='o',                                                                                     # Marker shape
+          linewidth=5,                                                                                    # Line width
+          markersize=7,                                                                                   # Marker size
+          markerfacecolor='tomato'                                                                        # Marker color
+        ) 
+
+# Drawl line labels
+for i, txt in enumerate(line_value4):                                                                     # Iterate throuh all items and draw them
+	ax2.annotate( # Line1 label design
+                f'{txt}%',                                                                                # Line label name
+                (x[i], line_value4[i]-1),                                                                 # Line label Y position
+                fontsize=global_fontsize,                                                                 # Line label font size
+                ha='center'                                                                               # Line label horizontal position
+              ) 
+for i, txt in enumerate(line_value5):                                                                     # Iterate throuh all items and draw them
+	ax2.annotate( # Line2 label design
+                f'{txt}%',                                                                                # Line label name
+                (x[i], line_value5[i]+1),                                                                 # Line label Y position
+                fontsize=global_fontsize,                                                                 # Line label font size
+                weight='bold',                                                                            # Line label bold or not
+                ha='center'                                                                               # Line label horizontal position
+              )  
+
+# Draw Secondary Y axis labels
+ax2.set_yticks(np.arange(0,18,2))                                                                         # Y2 axis tick position
+ax2.set_yticklabels(['0%','2%','4%','6%','8%','10%','12%','14%','16%'])                                   # Y2 axis tick label values
+ax2.yaxis.set_tick_params(labelsize=global_fontsize)                                                      # Secodary Y axis tick label font
+
+############################################################################################################################################################################
+####################################################### Chart global labels ################################################################################################
+############################################################################################################################################################################
+
+ax.set_title( # Add chart title
+              'Saplēsto lidojošo šķīvīšu kooficients',                                                    # Chart title
+              fontsize=30,                                                                                # Chart title font size
+              y=1.15                                                                                      # Chart title vertical position
+            ) 
+ax.set_ylabel(  # Add primary Y axis title
+                'Izgatavoto šķīvīšu skaits',                                                              # Primary Y axis name
+                rotation=0,                                                                               # Primary Y axis name rotation
+                y=1.04,                                                                                   # Primary Y axis name vertical position
+                ha='left',                                                                                # Primary Y axis name horizontal position
+                fontsize=global_fontsize,                                                                 # Primary Y axis name font size
+                weight='bold'                                                                             # Primary Y axis name bold or not
+              ) 
+ax2.set_ylabel( # Add secondary Y axis title
+                'Saplīsušo šķīvīšu daudzums, %',                                                          # Secondary Y axis name 
+                rotation=0,                                                                               # Secondary Y axis name rotation
+                y=1.06,                                                                                   # Secondary Y axis name vertical position
+                ha='right',                                                                               # Secondary Y axis name horizontal position
+                fontsize=global_fontsize,                                                                 # Secondary Y axis name font size
+                weight='bold'                                                                             # Secondary Y axis name bold or not
+              ) 
+
+############################################################################################################################################################################
+####################################################### Background grid properties #########################################################################################
+############################################################################################################################################################################
+
+ax.grid(  # Add background grid
+          axis='y',                                                                                       # Background grind line alignment
+          color='grey',                                                                                   # Background grind line color
+          linestyle='-',                                                                                  # Background grind line style
+          linewidth=1,                                                                                    # Background grind line width
+          zorder=0,                                                                                       # Background grind line layer
+          alpha=0.2                                                                                       # Background grind line transparency
+        ) 
+
+############################################################################################################################################################################
+####################################################### Figure spine visibility ############################################################################################
+############################################################################################################################################################################
+
+ax.spines['top'].set_visible(False), ax2.spines['top'].set_visible(False)                                 # Remove top spine
+# ax.spines['right'].set_visible(False), ax2.spines['right'].set_visible(False)                           # Remove right spine
+# ax.spines['bottom'].set_visible(False), ax2.spines['bottom'].set_visible(False)                         # Remove bottom spine
+# ax.spines['left'].set_visible(False), ax2.spines['left'].set_visible(False)                             # Remove left spine
+
+# [s.set_visible(False) for s in ax.spines.values()], [s.set_visible(False) for s in ax2.spines.values()] # Remove all spines at once
+
+############################################################################################################################################################################
+####################################################### Legend properties ##################################################################################################
+############################################################################################################################################################################
+
+lines_1, labels_1 = ax.get_legend_handles_labels()                                                        # First legend
+#lines_2, labels_2 = ax2.get_legend_handles_labels()                                                      # Second legend (if secondary Y axis exist)
+
+lines = lines_1 # + lines_2                                                                               # Merge lines
+labels = labels_1 # + labels_2                                                                            # Merge labels
+
+ax.legend(  # Merge all legends in to one / Legend properties
+            lines,                                                                                        # Draw lines in legend (with labels)
+            labels,                                                                                       # Legend line labels
+            frameon=False,                                                                                # Remove legend frame
+            ncol=2,                                                                                       # Number of legend columns
+            loc="upper center",                                                                           # Legend horizontal position
+            bbox_to_anchor=(0.5, -0.08),                                                                  # Precise legend position
+            prop={  'weight':'bold',                                                                      # Legend in bold or not
+                    "size":global_fontsize                                                                # Legend font size
+                  }
+          ) 
+
+############################################################################################################################################################################
+####################################################### Additional text ####################################################################################################
+############################################################################################################################################################################
+
+ax.text(  # Add text outside Figure
+          0.80, -0.25,                                                                                    # Precise text position ('-' means outside figure)
+          'Šie dati ir izzīsti no pirksta :)',                                                            # Text text
+          transform=ax.transAxes,                                                                         # Transform axes in to coordinates
+          fontsize=20,                                                                                    # Text font size 
+          va='bottom',                                                                                    # Text vertical position
+          weight='bold'                                                                                   # Text bold or note
+        ) 
+
+############################################################################################################################################################################
+####################################################### Figure size properties #############################################################################################
+############################################################################################################################################################################
+
+fig.set_size_inches(21, 9)                                                                                # Set figure size and ratio
+
+############################################################################################################################################################################
+####################################################### Save figure to .pptx ###############################################################################################
+############################################################################################################################################################################
+ 
+plt.savefig(  # Save figure to .jpg file
+              f'{path}\\UFO.jpg',                                                                         # Saved .jpg file name
+              bbox_inches='tight'                                                                         # Put legend next to plot
+            ) 
+
+prs = Presentation() # Create .pptx file
+blank_slide_layout = prs.slide_layouts[6]                                                                 # Choosing layout
+slide = prs.slides.add_slide(blank_slide_layout)                                                          # Inserting layout in .pptx
+prs.slide_height = Inches(9)                                                                              # Layout height
+prs.slide_width = Inches(16)                                                                              # Layout width
+
+slide.shapes.add_picture( # Insert created .jpg picture in existing .pptx template
+                    f'{path}\\UFO.jpg',                                                                   # Picture to insert in .pptx
+                    Inches(0.1),                                                                          # Picture distance from left side
+                    Inches(0.1),                                                                          # Picture distance from top
+                    Inches(15.8),                                                                         # Picture width
+                    Inches(8.8)                                                                           # Picture height
+                  ) 
+
+prs.save(f'{path}\\UFO.pptx')                                                                             # Where to save .pptx file and its name
+os.startfile(f'{path}\\UFO.pptx')                                                                         # Launch presentation
+
+############################################################################################################################################################################
+####################################################### Clear plot and delete figures ######################################################################################
+############################################################################################################################################################################
+
+plt.clf()                                                                                                 # Clear plot for a new start
+os.remove(f'{path}\\UFO.jpg')                                                                             # Delete created .jpg file
+print(f'{path}\\UFO.pptx has been successfully created.')                                                 # Eureka
